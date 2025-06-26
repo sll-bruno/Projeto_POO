@@ -4,14 +4,14 @@ import Model.UserType;
 import Model.Rotina.Rotina;
 
 public class Aluno extends Usuario {
-    private int age;
     private float weight;
     private float height;
     private Rotina rotina; 
 
-    public Aluno(String name, int age, float weight, float height){
+    public Aluno(String username, String name, int age, float weight, float height){
         super();
         setTipoUsuario(UserType.ALUNO);
+        setUsername(username);
         setName(name);
         setAge(age);
         setWeight(weight);
@@ -25,14 +25,6 @@ public class Aluno extends Usuario {
         super();
         setTipoUsuario(UserType.ALUNO);
         this.rotina = new Rotina();
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public float getWeight() {

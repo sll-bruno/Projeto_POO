@@ -1,5 +1,6 @@
 package View;
 
+import Model.UserType;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,13 +17,14 @@ public class TelaSelecaoUsuario extends JFrame {
         
         JButton btnAluno = new JButton("Sou Aluno");
         btnAluno.addActionListener((ActionEvent e) -> {
-            new TelaPrincipalAluno().setVisible(true);
+            new TelaLogin(UserType.ALUNO).setVisible(true);
             this.dispose();
         });
         
         JButton btnTreinador = new JButton("Sou Treinador");
         btnTreinador.addActionListener((ActionEvent e) -> {
-            JOptionPane.showMessageDialog(this, "Funcionalidade para Treinador ainda não implementada.", "Em Desenvolvimento", JOptionPane.INFORMATION_MESSAGE);
+            new TelaLogin(UserType.TREINADOR).setVisible(true);
+            this.dispose();
         });
         
         add(btnAluno);

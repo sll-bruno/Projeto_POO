@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class TelaPrincipalAluno extends JFrame {
 
+    private String usernameAluno;
     private AppController controller;
     private JList<Treino> listaTreinos;
     private JTable tabelaExercicios;
@@ -16,10 +17,10 @@ public class TelaPrincipalAluno extends JFrame {
     private DefaultTableModel tableModel;
     private JButton btnAdicionarTreino, btnRemoverTreino, btnAdicionarExercicio, btnEditarExercicio, btnRemoverExercicio, btnSalvar;
 
-    public TelaPrincipalAluno() {
-        this.controller = new AppController(this);
-        
-        setTitle("Gerenciador de Treinos do Aluno");
+    public TelaPrincipalAluno(String usernameAluno) {
+        this.controller = new AppController(this, usernameAluno);
+        this.usernameAluno = usernameAluno;
+        setTitle("Gerenciador de Treinos do Aluno " + this.usernameAluno);
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -46,7 +47,7 @@ public class TelaPrincipalAluno extends JFrame {
         painelEsquerdo.add(botoesTreino, BorderLayout.SOUTH);
         
         // -- Painel Direito (Tabela de Exercícios) --
-        String[] colunas = {"Nome", "Descrição", "Repetições", "Séries"};
+        String[] colunas = {"Nome", "Descrição", "Séries", "Repetições"};
         tableModel = new DefaultTableModel(colunas, 0){
              @Override
              public boolean isCellEditable(int row, int column) {
@@ -106,7 +107,7 @@ public class TelaPrincipalAluno extends JFrame {
         tableModel.setRowCount(0); // Limpa a tabela
         if (exercicios != null) {
             for (Exercicio ex : exercicios) {
-                tableModel.addRow(new Object[]{ex.getNome(), ex.getDescricao(), ex.getRepeticoes(), ex.getNumSeries()});
+                tableModel.addRow(new Object[]{ex.getNome(), ex.getDescricao(), ex.getNumSeries(), ex.getRepeticoes()});
             }
         }
     }

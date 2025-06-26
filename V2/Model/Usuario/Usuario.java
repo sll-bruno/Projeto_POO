@@ -5,7 +5,9 @@ import Model.UserType;
 public abstract class Usuario {
     private final int id;
     private String name;
+    private String username;
     private String password;
+    private int age;
     private UserType tipoUsuario;
     private static int counterID = 1;
 
@@ -13,6 +15,14 @@ public abstract class Usuario {
         this.id = counterID++;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
     public String getName() {
         return name;
     }
@@ -31,6 +41,14 @@ public abstract class Usuario {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getAge() {
+        return age;
     }
 
     public void setTipoUsuario(UserType tipo){

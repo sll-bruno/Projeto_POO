@@ -3,8 +3,9 @@ package Controller;
 import Data.DataManager;
 import Data.ValidacaoException;
 import Model.Rotina.*;
-import Model.Usuario.Aluno;
+import Model.Usuario.*;
 import View.TelaPrincipalAluno;
+import View.TelaPrincipalTreinador;
 import java.io.IOException;
 import javax.swing.*;
 
@@ -13,16 +14,38 @@ public class AppController {
     private TelaPrincipalAluno view;
     private Aluno aluno;
 
-    public AppController(TelaPrincipalAluno view) {
+    private TelaPrincipalTreinador viewTreinador;
+    private Treinador treinador;
+
+    public AppController(TelaPrincipalAluno view, String usernameAluno) {
         this.view = view;
+        this.aluno = new Aluno(usernameAluno, null, 0, 0.0f, 0.0f);
+    }
+
+    public AppController(TelaPrincipalTreinador view, String usernameTreinador) {
+        this.viewTreinador = view;
+        this.treinador = new Treinador(usernameTreinador, null, 0);
     }
 
     public void carregarDadosIniciais() {
         try {
-            this.aluno = DataManager.carregarAluno();
-            if (this.aluno == null) { // Se não houver arquivo salvo, cria um aluno novo
-                this.aluno = new Aluno("Novo Aluno", 25, 70.0f, 1.75f);
+            Aluno alunoCarregado = DataManager.carregarAluno(this.aluno.getUsername());
+            if (alunoCarregado == null) { // Se não houver arquivo salvo, cria um aluno novo
+                this.aluno = criarNovoAluno(aluno.getUsername());
+                if (this.aluno != null) {
+                    DataManager.salvarAluno(this.aluno); // Salva o novo aluno
+                    view.mostrarMensagem("Novo aluno criado com sucesso!", "Cadastro de novo usuário", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    // Se o usuário cancelar o cadastro, volta para a tela inicial
+                    view.dispose();
+                    new View.TelaSelecaoUsuario().setVisible(true);
+                    return;
+                }
+            } else {
+                // Se o aluno já existe, carrega os dados
+                this.aluno = alunoCarregado;
             }
+
             view.atualizarListaTreinos(aluno.getRotina().getTreinos());
             view.atualizarTabelaExercicios(null); // Limpa a tabela de exercícios
         } catch (IOException | ValidacaoException e) {
@@ -30,6 +53,67 @@ public class AppController {
         }
     }
     
+    public Aluno criarNovoAluno(String username) {
+        try {
+            // Solicitar dados do aluno
+            // Solicitar nome
+            String nome = JOptionPane.showInputDialog(view,
+                "Bem-vindo!\nDigite seu nome completo:",
+                "Cadastro - Nome",
+                JOptionPane.QUESTION_MESSAGE);
+            
+            if (nome == null || nome.trim().isEmpty())
+                throw new ValidacaoException("Digite um nome.");
+            if (!nome.matches("[a-zA-Z ]+")) 
+                throw new ValidacaoException("O nome deve conter apenas letras e espaços.");
+
+            // Solicitar idade
+            String idadeStr = JOptionPane.showInputDialog(view,
+                "Digite sua idade:",
+                "Cadastro - Idade",
+                JOptionPane.QUESTION_MESSAGE);
+
+            if (idadeStr == null || idadeStr.trim().isEmpty())
+                throw new ValidacaoException("Digite uma idade.");
+            int idade = Integer.parseInt(idadeStr.trim());
+            if (idade <= 0 || idade > 100)
+                throw new ValidacaoException("Idade deve ser um número entre 1 e 100 anos.");
+
+            // Solicitar peso
+            String pesoStr = JOptionPane.showInputDialog(view,
+                "Digite seu peso (kg, ex: 82.5):",
+                "Cadastro - Peso",
+                JOptionPane.QUESTION_MESSAGE);
+
+            if (pesoStr == null || pesoStr.trim().isEmpty())
+                throw new ValidacaoException("Digite um peso.");
+            float peso = Float.parseFloat(pesoStr.trim().replace(",", "."));
+            if (peso <= 0 || peso > 300)
+                throw new ValidacaoException("Peso deve ser um número entre 1 e 300 kg.");
+
+            // Solicitar altura
+            String alturaStr = JOptionPane.showInputDialog(view,
+                "Digite sua altura (m, ex: 1.75):",
+                "Cadastro - Altura",
+                JOptionPane.QUESTION_MESSAGE);
+
+            if (alturaStr == null || alturaStr.trim().isEmpty())
+                throw new ValidacaoException("Digite uma altura.");
+            float altura = Float.parseFloat(alturaStr.trim().replace(",", "."));
+            if (altura <= 1 || altura > 2.5)
+                throw new ValidacaoException("Altura deve ser um número entre 1 e 2.5 metros.");
+
+            return new Aluno(username, nome, idade, peso, altura);
+
+        } catch (NumberFormatException e) {
+            view.mostrarMensagem("Por favor, digite apenas números válidos.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);
+            return criarNovoAluno(username); // Tentar novamente
+        } catch (ValidacaoException e) {
+            view.mostrarMensagem(e.getMessage(), "Dados Inválidos", JOptionPane.ERROR_MESSAGE);
+            return criarNovoAluno(username); // Tentar novamente
+        }
+    }
+
     public void selecionarTreino(Treino treino) {
         if (treino != null) {
             view.atualizarTabelaExercicios(treino.getExercicios());
@@ -74,8 +158,8 @@ public class AppController {
         Object[] message = {
             "Nome:", nomeField,
             "Descrição:", descField,
-            "Repetições:", repsField,
-            "Séries:", seriesField
+            "Séries:", seriesField,
+            "Repetições:", repsField
         };
 
         int option = JOptionPane.showConfirmDialog(view, message, "Adicionar Exercício", JOptionPane.OK_CANCEL_OPTION);
@@ -116,9 +200,8 @@ public class AppController {
         Object[] message = {
             "Nome:", nomeField,
             "Descrição:", descField,
-            "Repetições:", repsField,
-            "Séries:", seriesField
-        };
+            "Séries:", seriesField,
+            "Repetições:", repsField,        };
         
         int option = JOptionPane.showConfirmDialog(view, message, "Editar Exercício", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {

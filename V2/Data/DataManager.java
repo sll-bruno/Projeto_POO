@@ -1,16 +1,32 @@
 package Data;
 
 import java.io.*;
-import java.util.ArrayList;
 import Model.Rotina.*;
-import Model.Usuario.Aluno;
+import Model.Usuario.*;
 
 public class DataManager {
 
-    private static final String FILE_NAME = "dados_aluno.txt";
+    private static final String DIRETORIO_DADOS_ALUNOS = "dados_alunos/";
+    private static final String DIRETORIO_DADOS_TREINADORES = "dados_treinadores/";
+
+    private static String gerarNomeArquivoAluno(String usernameAluno) {
+        return DIRETORIO_DADOS_ALUNOS + File.separator + "dados_aluno_" + usernameAluno + ".txt";
+    }
+
+    private static String gerarNomeArquivoTreinador(String usernameTreinador) {
+        return DIRETORIO_DADOS_TREINADORES + File.separator + "treinador_" + usernameTreinador + ".txt";
+    }
 
     public static void salvarAluno(Aluno aluno) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
+        String fileName = gerarNomeArquivoAluno(aluno.getUsername());
+
+        // Cria o diretório se não existir
+        File arquivo = new File(fileName);
+        if (!arquivo.getParentFile().exists()) {
+            arquivo.getParentFile().mkdirs();
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             writer.write("Nome:" + aluno.getName() + "\n");
             writer.write("Idade:" + aluno.getAge() + "\n");
             writer.write("Peso:" + aluno.getWeight() + "\n");
@@ -31,14 +47,15 @@ public class DataManager {
         }
     }
 
-    public static Aluno carregarAluno() throws IOException, ValidacaoException {
-        File file = new File(FILE_NAME);
+    public static Aluno carregarAluno(String nomeAluno) throws IOException, ValidacaoException {
+        String fileName = gerarNomeArquivoAluno(nomeAluno);
+        File file = new File(fileName);
         if (!file.exists()) {
             return null; // Retorna nulo se o arquivo não existe
         }
 
         Aluno aluno = new Aluno();
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             aluno.setName(reader.readLine().split(":")[1]);
             aluno.setAge(Integer.parseInt(reader.readLine().split(":")[1]));
             aluno.setWeight(Float.parseFloat(reader.readLine().split(":")[1]));
@@ -70,5 +87,67 @@ public class DataManager {
             throw new ValidacaoException("Erro ao ler o arquivo de dados. O arquivo pode estar corrompido.");
         }
         return aluno;
+    }
+
+    public static boolean existeArquivoAluno(String nomeAluno) {
+        String fileName = gerarNomeArquivoAluno(nomeAluno);
+        return new File(fileName).exists();
+    }
+    
+    public static void salvarTreinador(Treinador treinador){
+        String fileName = gerarNomeArquivoTreinador(treinador.getUsername());
+        
+        // Criar diretório se não existir
+        File arquivo = new File(fileName);
+        if (!arquivo.getParentFile().exists()) {
+            arquivo.getParentFile().mkdirs();
+        }
+        
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            writer.write("Nome:" + treinador.getName() + "\n");
+            writer.write("Idade:" + treinador.getAge() + "\n");
+            writer.write("START_ALUNOS\n");
+            for (Aluno aluno : treinador.getAlunos()) {
+                writer.write("Aluno:" + aluno.getUsername() + "\n");
+            }
+            writer.write("END_ALUNOS\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Treinador carregarTreinador(String usernameTreinador) throws IOException, ValidacaoException {
+        String fileName = gerarNomeArquivoTreinador(usernameTreinador);
+        File file = new File(fileName);
+        if (!file.exists()) {
+            return null; // Retorna nulo se o arquivo não existe
+        }
+
+        Treinador treinador = new Treinador();
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            treinador.setName(reader.readLine().split(":")[1]);
+            treinador.setAge(Integer.parseInt(reader.readLine().split(":")[1]));
+
+            String line;
+            if ((line = reader.readLine()).equals("START_ALUNOS")) {
+                while (!(line = reader.readLine()).equals("END_ALUNOS")) {
+                    if (line.startsWith("Aluno:")) {
+                        String usernameAluno = line.split(":")[1];
+                        Aluno aluno = carregarAluno(usernameAluno);
+                        if (aluno != null) {
+                            treinador.addAluno(aluno);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new ValidacaoException("Erro ao ler o arquivo de dados do treinador. O arquivo pode estar corrompido.");
+        }
+        return treinador;
+    }
+
+    public static boolean existeArquivoTreinador(String usernameTreinador) {
+        String fileName = gerarNomeArquivoTreinador(usernameTreinador);
+        return new File(fileName).exists();
     }
 }
