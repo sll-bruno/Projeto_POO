@@ -5,26 +5,17 @@ import Data.ValidacaoException;
 import Model.Rotina.*;
 import Model.Usuario.*;
 import View.TelaPrincipalAluno;
-import View.TelaPrincipalTreinador;
 import java.io.IOException;
 import javax.swing.*;
 
-public class AppController {
+public class AlunoController {
     
     private TelaPrincipalAluno view;
     private Aluno aluno;
 
-    private TelaPrincipalTreinador viewTreinador;
-    private Treinador treinador;
-
-    public AppController(TelaPrincipalAluno view, String usernameAluno) {
+    public AlunoController(TelaPrincipalAluno view, String usernameAluno) {
         this.view = view;
         this.aluno = new Aluno(usernameAluno, null, 0, 0.0f, 0.0f);
-    }
-
-    public AppController(TelaPrincipalTreinador view, String usernameTreinador) {
-        this.viewTreinador = view;
-        this.treinador = new Treinador(usernameTreinador, null, 0);
     }
 
     public void carregarDadosIniciais() {
@@ -62,7 +53,12 @@ public class AppController {
                 "Cadastro - Nome",
                 JOptionPane.QUESTION_MESSAGE);
             
-            if (nome == null || nome.trim().isEmpty())
+            if (nome == null){ // Usuário cancelou
+                view.dispose();
+                new View.TelaSelecaoUsuario().setVisible(true);
+                return null;
+            }
+            if (nome.trim().isEmpty())
                 throw new ValidacaoException("Digite um nome.");
             if (!nome.matches("[a-zA-Z ]+")) 
                 throw new ValidacaoException("O nome deve conter apenas letras e espaços.");
@@ -73,7 +69,12 @@ public class AppController {
                 "Cadastro - Idade",
                 JOptionPane.QUESTION_MESSAGE);
 
-            if (idadeStr == null || idadeStr.trim().isEmpty())
+            if (idadeStr == null){ // Usuário cancelou
+                view.dispose();
+                new View.TelaSelecaoUsuario().setVisible(true);
+                return null;
+            }
+            if (idadeStr.trim().isEmpty())
                 throw new ValidacaoException("Digite uma idade.");
             int idade = Integer.parseInt(idadeStr.trim());
             if (idade <= 0 || idade > 100)
@@ -84,8 +85,13 @@ public class AppController {
                 "Digite seu peso (kg, ex: 82.5):",
                 "Cadastro - Peso",
                 JOptionPane.QUESTION_MESSAGE);
-
-            if (pesoStr == null || pesoStr.trim().isEmpty())
+            
+            if (pesoStr == null){ // Usuário cancelou
+                view.dispose();
+                new View.TelaSelecaoUsuario().setVisible(true);
+                return null;
+            }
+            if (pesoStr.trim().isEmpty())
                 throw new ValidacaoException("Digite um peso.");
             float peso = Float.parseFloat(pesoStr.trim().replace(",", "."));
             if (peso <= 0 || peso > 300)
@@ -97,7 +103,12 @@ public class AppController {
                 "Cadastro - Altura",
                 JOptionPane.QUESTION_MESSAGE);
 
-            if (alturaStr == null || alturaStr.trim().isEmpty())
+            if (alturaStr == null){ // Usuário cancelou
+                view.dispose();
+                new View.TelaSelecaoUsuario().setVisible(true);
+                return null;
+            }
+            if (alturaStr.trim().isEmpty())
                 throw new ValidacaoException("Digite uma altura.");
             float altura = Float.parseFloat(alturaStr.trim().replace(",", "."));
             if (altura <= 1 || altura > 2.5)
@@ -238,5 +249,23 @@ public class AppController {
         } catch (IOException e) {
             view.mostrarMensagem("Erro ao salvar dados: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public void sair() {
+        String[] opcoes = {"Salvar e Sair", "Sair sem Salvar", "Cancelar"};
+        int escolha = JOptionPane.showOptionDialog(view, "Deseja salvar as alterações antes de sair?",
+        "Sair",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            opcoes,
+            opcoes[0] // Padrão para "Cancelar"
+        );
+        if (escolha == 0) // Salvar e sair
+            salvarDados();
+        else if (escolha == 2 || escolha == JOptionPane.CLOSED_OPTION) // Cancelar
+            return; // Não faz nada, volta para a tela
+        view.dispose();
+        new View.TelaSelecaoUsuario().setVisible(true); // Volta para a tela de seleção de usuário
     }
 }

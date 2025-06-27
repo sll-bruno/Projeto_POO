@@ -2,6 +2,8 @@ package Model.Usuario;
 
 import Model.UserType;
 import Model.Rotina.Rotina;
+import Data.DataManager;
+import java.util.ArrayList;
 
 public class Aluno extends Usuario {
     private float weight;
@@ -45,5 +47,14 @@ public class Aluno extends Usuario {
 
     public Rotina getRotina() {
         return rotina;
+    }
+
+    public static Aluno buscarAlunoPorUsername(String username) {
+        ArrayList<Aluno> alunos = DataManager.carregarTodosAlunos();
+        for (Aluno aluno : alunos) {
+            if (aluno.getUsername().equals(username))
+                return aluno;
+        }
+        return null; // Retorna nulo se não encontrar o aluno
     }
 }

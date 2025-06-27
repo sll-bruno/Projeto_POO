@@ -3,6 +3,7 @@ package Data;
 import java.io.*;
 import Model.Rotina.*;
 import Model.Usuario.*;
+import java.util.ArrayList;
 
 public class DataManager {
 
@@ -92,6 +93,26 @@ public class DataManager {
     public static boolean existeArquivoAluno(String nomeAluno) {
         String fileName = gerarNomeArquivoAluno(nomeAluno);
         return new File(fileName).exists();
+    }
+
+    public static ArrayList<Aluno> carregarTodosAlunos() {
+        ArrayList<Aluno> alunos = new ArrayList<>();
+        File dir = new File(DIRETORIO_DADOS_ALUNOS);
+        if (dir.exists() && dir.isDirectory()) {
+            for (File file : dir.listFiles()) {
+                if (file.isFile() && file.getName().startsWith("dados_aluno_") && file.getName().endsWith(".txt")) {
+                    try {
+                        Aluno aluno = carregarAluno(file.getName().replace("dados_aluno_", "").replace(".txt", ""));
+                        if (aluno != null) {
+                            alunos.add(aluno);
+                        }
+                    } catch (IOException | ValidacaoException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return alunos;
     }
     
     public static void salvarTreinador(Treinador treinador){
