@@ -1,0 +1,73 @@
+@startuml GymBro - Layout Balanceado
+
+skinparam shadowing true
+
+Usuario -down-|> Aluno
+Usuario -down-|> Treinador
+
+Treinador -right-o "*" Aluno : alunos
+
+Aluno -right-* "1" Rotina
+Rotina -up-o "*" Treino : treinos
+Treino -right-o "*" Exercicio : exercicios
+
+abstract class Usuario {
+    - id: int
+    - name: String
+    - username: String
+    - password: String
+    - age: int
+    - tipoUsuario: UserType
+    - {static} counterID: int
+}
+
+class Aluno {
+    - weight: float
+    - height: float
+    - rotina: Rotina
+    --
+    + {static} buscarAlunoPorUsername(String): Aluno
+}
+
+class Treinador {
+    - alunos: ArrayList<Aluno>
+    --
+    + getAlunos(): ArrayList<Aluno>
+    + addAluno(Aluno)
+    + removeAluno(Aluno)
+    + temAluno(Aluno): boolean
+}
+
+class Rotina {
+    - idRotina: int
+    - nome: String
+    - treinos: ArrayList<Treino>
+    - {static} counterID: int
+    --
+    + addTreino(Treino)
+    + removeTreino(Treino)
+}
+
+class Treino {
+    - idTreino: int
+    - nome: String
+    - exercicios: ArrayList<Exercicio>
+    --
+    + addExercicio(Exercicio)
+    + removeExercicio(Exercicio)
+}
+
+class Exercicio {
+    - id: int
+    - nome: String
+    - descricao: String
+    - repeticoes: int
+    - numSeries: int
+}
+
+enum UserType {
+    ALUNO
+    TREINADOR
+}
+
+@enduml

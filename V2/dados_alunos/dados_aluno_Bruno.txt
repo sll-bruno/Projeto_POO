@@ -1,0 +1,7 @@
+Nome:Bruno Amaral Salles 
+Idade:18
+Peso:80.5
+Altura:1.8
+Rotina:Minha Rotina
+START_TREINOS
+END_TREINOS
