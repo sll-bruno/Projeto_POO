@@ -28,6 +28,7 @@ public class DataManager {
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            writer.write("Username:" + aluno.getUsername() + "\n");
             writer.write("Nome:" + aluno.getName() + "\n");
             writer.write("Idade:" + aluno.getAge() + "\n");
             writer.write("Peso:" + aluno.getWeight() + "\n");
@@ -57,6 +58,7 @@ public class DataManager {
 
         Aluno aluno = new Aluno();
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            aluno.setUsername(reader.readLine().split(":")[1]);
             aluno.setName(reader.readLine().split(":")[1]);
             aluno.setAge(Integer.parseInt(reader.readLine().split(":")[1]));
             aluno.setWeight(Float.parseFloat(reader.readLine().split(":")[1]));

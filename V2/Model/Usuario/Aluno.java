@@ -8,9 +8,9 @@ import java.util.ArrayList;
 public class Aluno extends Usuario {
     private float weight;
     private float height;
-    private Rotina rotina; 
+    private Rotina rotina;
 
-    public Aluno(String username, String name, int age, float weight, float height){
+    public Aluno(String username, String name, int age, float weight, float height) {
         super();
         setTipoUsuario(UserType.ALUNO);
         setUsername(username);
@@ -52,7 +52,10 @@ public class Aluno extends Usuario {
     public static Aluno buscarAlunoPorUsername(String username) {
         ArrayList<Aluno> alunos = DataManager.carregarTodosAlunos();
         for (Aluno aluno : alunos) {
-            if (aluno.getUsername().equals(username))
+            if (aluno == null)
+                continue;
+            String alunoUsername = aluno.getUsername();
+            if (alunoUsername != null && alunoUsername.equals(username))
                 return aluno;
         }
         return null; // Retorna nulo se não encontrar o aluno

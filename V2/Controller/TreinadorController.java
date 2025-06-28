@@ -26,7 +26,7 @@ public class TreinadorController {
 
     // Adiciona um aluno existente à lista do treinador
     public void adicionarAluno() {
-        String username = JOptionPane.showInputDialog(view, "Digite o nome de usuário do aluno já cadastrado:",
+        String username = JOptionPane.showInputDialog(view, "Digite o nome de usuário do aluno (já cadastrado):",
                 "Adicionar Aluno", JOptionPane.PLAIN_MESSAGE);
         if (username != null && !username.trim().isEmpty()) {
             Aluno aluno = Aluno.buscarAlunoPorUsername(username.trim()); // Implemente esse método estático em Aluno
