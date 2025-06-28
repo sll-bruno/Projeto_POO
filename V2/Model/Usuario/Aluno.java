@@ -60,4 +60,9 @@ public class Aluno extends Usuario {
         }
         return null; // Retorna nulo se não encontrar o aluno
     }
+
+    @Override
+    public String toString() {
+        return this.getName();
+    }
 }

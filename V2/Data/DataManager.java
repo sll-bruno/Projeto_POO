@@ -15,7 +15,7 @@ public class DataManager {
     }
 
     private static String gerarNomeArquivoTreinador(String usernameTreinador) {
-        return DIRETORIO_DADOS_TREINADORES + File.separator + "treinador_" + usernameTreinador + ".txt";
+        return DIRETORIO_DADOS_TREINADORES + File.separator + "dados_treinador_" + usernameTreinador + ".txt";
     }
 
     public static void salvarAluno(Aluno aluno) throws IOException {
@@ -40,7 +40,7 @@ public class DataManager {
                 writer.write("TreinoNome:" + treino.getNome() + "\n");
                 writer.write("START_EXERCICIOS\n");
                 for (Exercicio ex : treino.getExercicios()) {
-                    writer.write(String.format("Exercicio|%s|%s|%d|%d\n",
+                    writer.write(String.format("Exercicio:%s|%s|%d|%d\n",
                         ex.getNome(), ex.getDescricao(), ex.getRepeticoes(), ex.getNumSeries()));
                 }
                 writer.write("END_EXERCICIOS\n");
@@ -49,8 +49,8 @@ public class DataManager {
         }
     }
 
-    public static Aluno carregarAluno(String nomeAluno) throws IOException, ValidacaoException {
-        String fileName = gerarNomeArquivoAluno(nomeAluno);
+    public static Aluno carregarAluno(String usernameAluno) throws IOException, ValidacaoException {
+        String fileName = gerarNomeArquivoAluno(usernameAluno);
         File file = new File(fileName);
         if (!file.exists()) {
             return null; // Retorna nulo se o arquivo não existe
@@ -74,12 +74,13 @@ public class DataManager {
                         aluno.getRotina().addTreino(treinoAtual);
                     } else if (line.equals("START_EXERCICIOS") && treinoAtual != null) {
                         while (!(line = reader.readLine()).equals("END_EXERCICIOS")) {
-                            if (line.startsWith("Exercicio|")) {
-                                String[] parts = line.split("\\|");
-                                String nome = parts[1];
-                                String desc = parts[2];
-                                int reps = Integer.parseInt(parts[3]);
-                                int series = Integer.parseInt(parts[4]);
+                            if (line.startsWith("Exercicio:")) {
+                                String[] lineParts = line.split(":", 2);
+                                String[] parts = lineParts[1].split("\\|");
+                                String nome = parts[0];
+                                String desc = parts[1];
+                                int reps = Integer.parseInt(parts[2]);
+                                int series = Integer.parseInt(parts[3]);
                                 treinoAtual.addExercicio(new Exercicio(nome, desc, reps, series));
                             }
                         }
@@ -92,8 +93,8 @@ public class DataManager {
         return aluno;
     }
 
-    public static boolean existeArquivoAluno(String nomeAluno) {
-        String fileName = gerarNomeArquivoAluno(nomeAluno);
+    public static boolean existeArquivoAluno(String usernameAluno) {
+        String fileName = gerarNomeArquivoAluno(usernameAluno);
         return new File(fileName).exists();
     }
 
@@ -117,7 +118,7 @@ public class DataManager {
         return alunos;
     }
     
-    public static void salvarTreinador(Treinador treinador){
+    public static void salvarTreinador(Treinador treinador) throws IOException {
         String fileName = gerarNomeArquivoTreinador(treinador.getUsername());
         
         // Criar diretório se não existir
@@ -127,6 +128,7 @@ public class DataManager {
         }
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            writer.write("Username:" + treinador.getUsername() + "\n");
             writer.write("Nome:" + treinador.getName() + "\n");
             writer.write("Idade:" + treinador.getAge() + "\n");
             writer.write("START_ALUNOS\n");
@@ -134,8 +136,6 @@ public class DataManager {
                 writer.write("Aluno:" + aluno.getUsername() + "\n");
             }
             writer.write("END_ALUNOS\n");
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -148,6 +148,7 @@ public class DataManager {
 
         Treinador treinador = new Treinador();
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            treinador.setUsername(reader.readLine().split(":")[1]);
             treinador.setName(reader.readLine().split(":")[1]);
             treinador.setAge(Integer.parseInt(reader.readLine().split(":")[1]));
 

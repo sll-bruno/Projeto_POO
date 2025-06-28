@@ -259,7 +259,7 @@ public class AlunoController {
             JOptionPane.QUESTION_MESSAGE,
             null,
             opcoes,
-            opcoes[0] // Padrão para "Cancelar"
+            opcoes[0]
         );
         if (escolha == 0) // Salvar e sair
             salvarDados();
