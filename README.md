@@ -55,5 +55,3 @@ A classe aluno tem uma relação de composição com a classe "Rotina", do tipo 
 
 A divisão do diretório pode ser visualizada na Imagem 2 (abaixo). As partes principais são o "Controller", que altera os objetos instanciados e faz alterações no "View". No "Model", estão contidas todas as declarações de classes usadas no projeto. O "View" é responsável pela interface gráfica com que o usuário interage. Além disso, dentro do módulo "Data", temos a classe "DataManager", responsável por fazer o parsing dos dados armazenados em "dados-alunos" e "dados-treinadores" na forma de arquivos de texto. Por fim, temos o diagrama de classes, o arquivo de membros e a "Main", por onde a aplicação pode ser executada.
 
-![Estrutura do diretório](image.png)
-*Estrutura do diretório*
