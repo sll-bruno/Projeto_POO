@@ -189,7 +189,8 @@ public class TreinadorController {
             return;
         }
         //Abre a tela do aluno, permitindo ao treinador editar os treinos
-        TelaPrincipalAluno telaAluno = new TelaPrincipalAluno(aluno.getUsername());
+        System.setProperty("treinador.username", this.treinador.getUsername());
+        TelaPrincipalAluno telaAluno = new TelaPrincipalAluno(aluno.getUsername(), true);
         telaAluno.setVisible(true);
     }
 

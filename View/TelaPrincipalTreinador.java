@@ -19,7 +19,7 @@ public class TelaPrincipalTreinador extends JFrame {
         this.controller = new TreinadorController(this, usernameTreinador);
 
         setTitle("Painel do Treinador: " + this.usernameTreinador);
-        setSize(650, 400);
+        setSize(900, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -68,7 +68,6 @@ public class TelaPrincipalTreinador extends JFrame {
         btnSalvar.setForeground(Color.WHITE);
         btnSalvar.setFocusPainted(false);
         btnSalvar.setPreferredSize(new Dimension(130, 38));
-        painelBotoes.removeAll();
         painelBotoes.add(btnAdicionarAluno);
         painelBotoes.add(btnRemoverAluno);
         painelBotoes.add(btnEditarTreinos);

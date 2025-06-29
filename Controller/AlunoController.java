@@ -271,6 +271,22 @@ public class AlunoController {
         else if (escolha == 2 || escolha == JOptionPane.CLOSED_OPTION) // Cancelar
             return; // Não faz nada, volta para a tela
         view.dispose();
-        new View.TelaSelecaoUsuario().setVisible(true); // Volta para a tela de seleção de usuário
+        
+        
+        //Logica utilizada para garantir que o botao de voltar sempre retorna de onde a aplicação parou
+        if (view.isAbertoPorTreinador()) {
+            
+            String usernameTreinador = System.getProperty("treinador.username");
+            
+            if (usernameTreinador != null) {
+               view.dispose();
+            } 
+            else {
+                new View.TelaSelecaoUsuario().setVisible(true);
+            }
+        } 
+        else {
+            new View.TelaSelecaoUsuario().setVisible(true);
+        }
     }
 }

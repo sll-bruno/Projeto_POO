@@ -17,10 +17,15 @@ public class TelaPrincipalAluno extends JFrame {
     private DefaultTableModel tableModel;
     private JButton btnAdicionarTreino, btnRemoverTreino, btnAdicionarExercicio, btnEditarExercicio,
             btnRemoverExercicio, btnSalvar, btnSair;
+    private boolean abertoPorTreinador = false;
 
     public TelaPrincipalAluno(String usernameAluno) {
+        this(usernameAluno, false);
+    }
+    public TelaPrincipalAluno(String usernameAluno, boolean abertoPorTreinador) {
         this.controller = new AlunoController(this, usernameAluno);
         this.usernameAluno = usernameAluno;
+        this.abertoPorTreinador = abertoPorTreinador;
         setTitle("Gerenciador de Treinos do Aluno " + this.usernameAluno);
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -180,5 +185,9 @@ public class TelaPrincipalAluno extends JFrame {
 
     public void mostrarMensagem(String mensagem, String titulo, int tipo) {
         JOptionPane.showMessageDialog(this, mensagem, titulo, tipo);
+    }
+
+    public boolean isAbertoPorTreinador() {
+        return abertoPorTreinador;
     }
 }

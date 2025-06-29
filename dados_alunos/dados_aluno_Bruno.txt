@@ -1,0 +1,14 @@
+Username:Bruno
+Nome:Bruno Amaral Salles de Moraes
+Idade:18
+Peso:80.0
+Altura:1.8
+Rotina:Minha Rotina
+START_TREINOS
+TreinoNome:Dia 1: Superiores
+START_EXERCICIOS
+Exercicio:Supino|treino de peitoral|3|15
+Exercicio:Crucifixo|njkdak|3|15
+Exercicio:das|dsad|3|3
+END_EXERCICIOS
+END_TREINOS

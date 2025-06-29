@@ -1,8 +1,0 @@
-Username:Bruno1234
-Nome:Bruno Amaral Salles de Moraes
-Idade:18
-Peso:75.6
-Altura:1.87
-Rotina:Minha Rotina
-START_TREINOS
-END_TREINOS
