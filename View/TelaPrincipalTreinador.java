@@ -62,6 +62,12 @@ public class TelaPrincipalTreinador extends JFrame {
         btnSair.setForeground(Color.WHITE);
         btnSair.setFocusPainted(false);
         btnSair.setPreferredSize(new Dimension(100, 38));
+        btnSalvar = new JButton("Salvar Dados");
+        btnSalvar.setFont(new Font("Arial", Font.BOLD, 15));
+        btnSalvar.setBackground(new Color(70, 130, 180));
+        btnSalvar.setForeground(Color.WHITE);
+        btnSalvar.setFocusPainted(false);
+        btnSalvar.setPreferredSize(new Dimension(130, 38));
         painelBotoes.removeAll();
         painelBotoes.add(btnAdicionarAluno);
         painelBotoes.add(btnRemoverAluno);
