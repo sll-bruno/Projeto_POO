@@ -18,14 +18,14 @@ public class TelaSelecaoUsuario extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                setBackground(new Color(245, 245, 245)); // cor de fundo clara
+                setBackground(new Color(245, 245, 245));
             }
         };
         painelPrincipal.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
         GridBagConstraints gbc = new GridBagConstraints();
 
         // Placeholder para logo
-        JLabel lblLogo = new JLabel("LOGO");
+        JLabel lblLogo = new JLabel("Bem Vindo!");
         lblLogo.setFont(new Font("Arial", Font.BOLD, 32));
         lblLogo.setForeground(new Color(46, 134, 222));
         lblLogo.setHorizontalAlignment(SwingConstants.CENTER);

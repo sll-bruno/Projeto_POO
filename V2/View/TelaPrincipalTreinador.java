@@ -23,7 +23,7 @@ public class TelaPrincipalTreinador extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Lista de alunos
+        //Lista de alunos
         listModel = new DefaultListModel<>();
         listaAlunos = new JList<>(listModel);
         listaAlunos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -35,7 +35,7 @@ public class TelaPrincipalTreinador extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane(listaAlunos);
 
-        // Painel de botões
+        //Painel de botões
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
         painelBotoes.setBackground(new Color(245, 245, 245));
         btnAdicionarAluno = new JButton("Adicionar Aluno");
@@ -82,18 +82,17 @@ public class TelaPrincipalTreinador extends JFrame {
         add(painelCentro, BorderLayout.CENTER);
         add(painelBotoes, BorderLayout.SOUTH);
 
-        // Listeners
+        //adiciona listeners aos elemtnos
         btnAdicionarAluno.addActionListener(e -> controller.adicionarAluno());
         btnRemoverAluno.addActionListener(e -> controller.removerAluno(listaAlunos.getSelectedValue()));
         btnEditarTreinos.addActionListener(e -> controller.editarTreinosAluno(listaAlunos.getSelectedValue()));
         btnSalvar.addActionListener(e -> controller.salvarDados());
         btnSair.addActionListener(e -> controller.sair());
 
-        // Carrega lista inicial de alunos do treinador
         controller.carregarDadosIniciais();
     }
 
-    // Atualiza a lista de alunos exibida
+    //Atualiza a lista de alunos exibida
     public void atualizarListaAlunos(ArrayList<Aluno> alunos) {
         listModel.clear();
         for (Aluno a : alunos) {
@@ -101,7 +100,7 @@ public class TelaPrincipalTreinador extends JFrame {
         }
     }
 
-    // Mostra mensagens para o usuário
+    //Mostra mensagens para o usuário
     public void mostrarMensagem(String mensagem, String titulo, int tipo) {
         JOptionPane.showMessageDialog(this, mensagem, titulo, tipo);
     }

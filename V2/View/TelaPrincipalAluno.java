@@ -26,7 +26,7 @@ public class TelaPrincipalAluno extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // -- Painel Esquerdo (Lista de Treinos) --
+        //Painel Esquerdo (Lista de Treinos)
         listModel = new DefaultListModel<>();
         listaTreinos = new JList<>(listModel);
         listaTreinos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -69,12 +69,12 @@ public class TelaPrincipalAluno extends JFrame {
         botoesTreino.add(btnRemoverTreino);
         painelEsquerdo.add(botoesTreino, BorderLayout.SOUTH);
 
-        // -- Painel Direito (Tabela de Exercícios) --
+        //Painel Direito (Tabela de Exercícios)
         String[] colunas = { "Nome", "Descrição", "Séries", "Repetições" };
         tableModel = new DefaultTableModel(colunas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Torna a tabela não editável diretamente
+                return false; 
             }
         };
 
@@ -99,19 +99,19 @@ public class TelaPrincipalAluno extends JFrame {
         botoesExercicio.setOpaque(false);
         btnAdicionarExercicio = new JButton("Adicionar");
         btnAdicionarExercicio.setFont(new Font("Arial", Font.BOLD, 15));
-        btnAdicionarExercicio.setBackground(new Color(70, 130, 180)); // azul menos saturado
+        btnAdicionarExercicio.setBackground(new Color(70, 130, 180));
         btnAdicionarExercicio.setForeground(Color.WHITE);
         btnAdicionarExercicio.setFocusPainted(false);
         btnAdicionarExercicio.setPreferredSize(new Dimension(110, 36));
         btnEditarExercicio = new JButton("Editar");
         btnEditarExercicio.setFont(new Font("Arial", Font.BOLD, 15));
-        btnEditarExercicio.setBackground(new Color(70, 130, 180)); // azul menos saturado
+        btnEditarExercicio.setBackground(new Color(70, 130, 180));
         btnEditarExercicio.setForeground(Color.WHITE);
         btnEditarExercicio.setFocusPainted(false);
         btnEditarExercicio.setPreferredSize(new Dimension(110, 36));
         btnRemoverExercicio = new JButton("Remover");
         btnRemoverExercicio.setFont(new Font("Arial", Font.BOLD, 15));
-        btnRemoverExercicio.setBackground(new Color(200, 80, 80)); // vermelho menos saturado
+        btnRemoverExercicio.setBackground(new Color(200, 80, 80));
         btnRemoverExercicio.setForeground(Color.WHITE);
         btnRemoverExercicio.setFocusPainted(false);
         btnRemoverExercicio.setPreferredSize(new Dimension(110, 36));
@@ -120,16 +120,16 @@ public class TelaPrincipalAluno extends JFrame {
         botoesExercicio.add(btnRemoverExercicio);
         painelDireito.add(botoesExercicio, BorderLayout.SOUTH);
 
-        // -- Painel Inferior (Salvar) --
+        //Painel Inferior (Salvar)
         btnSalvar = new JButton("Salvar Alterações");
         btnSalvar.setFont(new Font("Arial", Font.BOLD, 15));
-        btnSalvar.setBackground(new Color(70, 130, 180)); // azul menos saturado
+        btnSalvar.setBackground(new Color(70, 130, 180));
         btnSalvar.setForeground(Color.WHITE);
         btnSalvar.setFocusPainted(false);
         btnSalvar.setPreferredSize(new Dimension(170, 38));
         btnSair = new JButton("Sair");
         btnSair.setFont(new Font("Arial", Font.BOLD, 15));
-        btnSair.setBackground(new Color(70, 130, 180)); // azul menos saturado
+        btnSair.setBackground(new Color(70, 130, 180)); 
         btnSair.setForeground(Color.WHITE);
         btnSair.setFocusPainted(false);
         btnSair.setPreferredSize(new Dimension(110, 38));
@@ -138,16 +138,16 @@ public class TelaPrincipalAluno extends JFrame {
         painelInferior.add(btnSalvar);
         painelInferior.add(btnSair);
 
-        // -- Split Pane --
+        // Split Pane
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, painelEsquerdo, painelDireito);
         splitPane.setDividerLocation(250);
 
-        // -- Adicionar componentes ao Frame --
+        //Adicionar componentes ao Frame
         setLayout(new BorderLayout());
         add(splitPane, BorderLayout.CENTER);
         add(painelInferior, BorderLayout.SOUTH);
 
-        // -- Adicionar Listeners --
+        //Adicionar listeners aos itens
         btnAdicionarTreino.addActionListener(e -> controller.adicionarTreino());
         btnRemoverTreino.addActionListener(e -> controller.removerTreino(listaTreinos.getSelectedValue()));
         btnAdicionarExercicio.addActionListener(e -> controller.adicionarExercicio(listaTreinos.getSelectedValue()));
@@ -158,7 +158,6 @@ public class TelaPrincipalAluno extends JFrame {
         btnSalvar.addActionListener(e -> controller.salvarDados());
         btnSair.addActionListener(e -> controller.sair());
 
-        // Carrega dados iniciais
         controller.carregarDadosIniciais();
     }
 
@@ -170,7 +169,7 @@ public class TelaPrincipalAluno extends JFrame {
     }
 
     public void atualizarTabelaExercicios(ArrayList<Exercicio> exercicios) {
-        tableModel.setRowCount(0); // Limpa a tabela
+        tableModel.setRowCount(0); 
         if (exercicios != null) {
             for (Exercicio ex : exercicios) {
                 tableModel.addRow(
