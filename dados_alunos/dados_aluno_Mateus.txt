@@ -1,0 +1,26 @@
+Username:Mateus
+Nome:Mateus Pachela Garcia
+Idade:21
+Peso:75.5
+Altura:1.78
+Rotina:Rotina de Hipertrofia
+START_TREINOS
+TreinoNome:Peito e Tríceps
+START_EXERCICIOS
+Exercicio:Supino Reto|peito|4|12
+Exercicio:Supino Inclinado|peito|3|10
+Exercicio:Tríceps Pulley|tríceps|3|15
+END_EXERCICIOS
+TreinoNome:Costas e Bíceps
+START_EXERCICIOS
+Exercicio:Barra Fixa|costas|4|8
+Exercicio:Remada Curvada|costas|3|12
+Exercicio:Rosca Direta|bíceps|3|10
+END_EXERCICIOS
+TreinoNome:Pernas
+START_EXERCICIOS
+Exercicio:Agachamento Livre|pernas|4|10
+Exercicio:Cadeira Extensora|quadríceps|3|15
+Exercicio:Panturrilha em Pé|panturrilha|3|20
+END_EXERCICIOS
+END_TREINOS
