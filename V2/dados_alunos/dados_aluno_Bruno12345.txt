@@ -1,0 +1,8 @@
+Username:Bruno12345
+Nome:Bruno Amaral Salles
+Idade:18
+Peso:87.5
+Altura:1.9
+Rotina:Minha Rotina
+START_TREINOS
+END_TREINOS

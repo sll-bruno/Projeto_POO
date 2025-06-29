@@ -1,7 +1,7 @@
 package Controller;
 
 import Data.DataManager;
-import Data.ValidacaoException;
+import Exception.ValidacaoException;
 import Model.Rotina.*;
 import Model.Usuario.*;
 import View.TelaPrincipalAluno;

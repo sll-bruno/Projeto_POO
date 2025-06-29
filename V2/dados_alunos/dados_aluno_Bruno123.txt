@@ -1,0 +1,8 @@
+Username:Bruno123
+Nome:Bruno Amaral
+Idade:18
+Peso:8.45
+Altura:1.75
+Rotina:Minha Rotina
+START_TREINOS
+END_TREINOS

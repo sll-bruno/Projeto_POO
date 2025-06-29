@@ -5,8 +5,4 @@ Peso:80.0
 Altura:1.8
 Rotina:Minha Rotina
 START_TREINOS
-TreinoNome:peito
-START_EXERCICIOS
-Exercicio|supino|inclinado|9|3
-END_EXERCICIOS
 END_TREINOS
