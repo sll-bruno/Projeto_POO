@@ -69,19 +69,19 @@ public class DataManager {
             if ((line = reader.readLine()).equals("START_TREINOS")) {
                 Treino treinoAtual = null;
                 while (!(line = reader.readLine()).equals("END_TREINOS")) {
-                    
                     if (line.startsWith("TreinoNome:")) {
-                        treinoAtual = new Treino(line.split(":")[1]);
+                        treinoAtual = new Treino(line.split(":", 2)[1]);
                         aluno.getRotina().addTreino(treinoAtual);
                     } 
                     else if (line.equals("START_EXERCICIOS") && treinoAtual != null) {
                         while (!(line = reader.readLine()).equals("END_EXERCICIOS")) {
-                            if (line.startsWith("Exercicio|")) {
-                                String[] linha = line.split("\\|");
-                                String nome = linha[1];
-                                String desc = linha[2];
-                                int repeticoes = Integer.parseInt(linha[3]);
-                                int series = Integer.parseInt(linha[4]);
+                            if (line.startsWith("Exercicio:")) {
+                                String dados = line.substring("Exercicio:".length());
+                                String[] linha = dados.split("\\|");
+                                String nome = linha[0];
+                                String desc = linha[1];
+                                int repeticoes = Integer.parseInt(linha[2]);
+                                int series = Integer.parseInt(linha[3]);
                                 treinoAtual.addExercicio(new Exercicio(nome, desc, repeticoes, series));
                             }
                         }

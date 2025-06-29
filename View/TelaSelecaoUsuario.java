@@ -12,7 +12,7 @@ public class TelaSelecaoUsuario extends JFrame {
         setSize(400, 320);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setResizable(false);
+        setResizable(true);
 
         JPanel painelPrincipal = new JPanel(new GridBagLayout()) {
             @Override
