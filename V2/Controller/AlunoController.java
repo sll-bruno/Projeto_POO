@@ -21,24 +21,27 @@ public class AlunoController {
     public void carregarDadosIniciais() {
         try {
             Aluno alunoCarregado = DataManager.carregarAluno(this.aluno.getUsername());
-            if (alunoCarregado == null) { // Se não houver arquivo salvo, cria um aluno novo
+            //Se não houver arquivo salvo, cria um aluno novo
+            if (alunoCarregado == null) { 
                 this.aluno = criarNovoAluno(aluno.getUsername());
+                
                 if (this.aluno != null) {
-                    DataManager.salvarAluno(this.aluno); // Salva o novo aluno
+                    DataManager.salvarAluno(this.aluno); //Salva o novo aluno
                     view.mostrarMensagem("Novo aluno criado com sucesso!", "Cadastro de novo usuário", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    // Se o usuário cancelar o cadastro, volta para a tela inicial
+                } 
+                else {
+                    //Se o usuário cancelar o cadastro, volta para a tela inicial
                     view.dispose();
                     new View.TelaSelecaoUsuario().setVisible(true);
                     return;
                 }
             } else {
-                // Se o aluno já existe, carrega os dados
+                //Se o aluno já existe, carrega os dados
                 this.aluno = alunoCarregado;
             }
 
             view.atualizarListaTreinos(aluno.getRotina().getTreinos());
-            view.atualizarTabelaExercicios(null); // Limpa a tabela de exercícios
+            view.atualizarTabelaExercicios(null); //Limpa a tabela de exercícios
         } catch (IOException | ValidacaoException e) {
             view.mostrarMensagem("Erro ao carregar dados: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -46,24 +49,26 @@ public class AlunoController {
     
     public Aluno criarNovoAluno(String username) {
         try {
-            // Solicitar dados do aluno
-            // Solicitar nome
+            //Inserção de dados do aluno
             String nome = JOptionPane.showInputDialog(view,
                 "Bem-vindo!\nDigite seu nome completo:",
                 "Cadastro - Nome",
                 JOptionPane.QUESTION_MESSAGE);
             
-            if (nome == null){ // Usuário cancelou
+            //Operação cancelada pelo usuário
+            if (nome == null){ 
                 view.dispose();
                 new View.TelaSelecaoUsuario().setVisible(true);
                 return null;
             }
+
             if (nome.trim().isEmpty())
                 throw new ValidacaoException("Digite um nome.");
+            
             if (!nome.matches("[a-zA-Z ]+")) 
                 throw new ValidacaoException("O nome deve conter apenas letras e espaços.");
 
-            // Solicitar idade
+            //Solicitar idade
             String idadeStr = JOptionPane.showInputDialog(view,
                 "Digite sua idade:",
                 "Cadastro - Idade",

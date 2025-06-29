@@ -23,20 +23,23 @@ public class TreinadorController {
     public void carregarDadosIniciais() {
         try {
             Treinador treinadorCarregado = DataManager.carregarTreinador(this.treinador.getUsername());
-            if (treinadorCarregado == null) { // Se não houver arquivo salvo, cria um treinador novo
+            
+            //Se o treinador não foi encontrado, cria um novo treinador
+            if (treinadorCarregado == null) { 
                 this.treinador = criarNovoTreinador(treinador.getUsername());
+                
                 if (this.treinador != null) {
-                    DataManager.salvarTreinador(this.treinador); // Salva o novo treinador
+                    DataManager.salvarTreinador(this.treinador);
                     view.mostrarMensagem("Novo treinador criado com sucesso!", "Cadastro de novo usuário",
                             JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    // Se o usuário cancelar o cadastro, volta para a tela inicial
+                } 
+                else {
                     view.dispose();
                     new View.TelaSelecaoUsuario().setVisible(true);
                     return;
                 }
+            //Se já existe treinador, salva os dados em "treinador"
             } else {
-                // Se o treinador já existe, carrega os dados
                 this.treinador = treinadorCarregado;
             }
 
@@ -54,22 +57,25 @@ public class TreinadorController {
         try {
             DataManager.salvarTreinador(treinador);
             view.mostrarMensagem("Dados salvos com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException e) {
+        } 
+        catch (IOException e) {
             view.mostrarMensagem("Erro ao salvar dados: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     public Treinador criarNovoTreinador(String username) {
         try {
-            // Solicitar nome
+            //Insere o nome do treinador
             String nome = JOptionPane.showInputDialog(view,
                     "Bem-vindo, novo treinador!\nDigite seu nome completo:",
                     "Cadastro de Treinador - Nome",
                     JOptionPane.QUESTION_MESSAGE);
 
-            if (nome == null) { // Usuário cancelou
+            //Caso o usuário não tenha inserido o nome, retorna null
+            if (nome == null) {
                 return null;
             }
+            
             if (nome.trim().isEmpty()) {
                 throw new ValidacaoException("O nome não pode ser vazio.");
             }
@@ -77,13 +83,14 @@ public class TreinadorController {
                 throw new ValidacaoException("O nome deve conter apenas letras e espaços.");
             }
 
-            // Solicitar idade
+            //Insere Idade do treinador
             String idadeStr = JOptionPane.showInputDialog(view,
                     "Digite sua idade:",
                     "Cadastro de Treinador - Idade",
                     JOptionPane.QUESTION_MESSAGE);
-
-            if (idadeStr == null) { // Usuário cancelou
+            
+            //Caso o usuário nao tenha inserido a idade, retorna null
+            if (idadeStr == null) { 
                 return null;
             }
             if (idadeStr.trim().isEmpty()) {
@@ -94,7 +101,7 @@ public class TreinadorController {
                 throw new ValidacaoException("A idade deve ser um número entre 18 e 100.");
             }
 
-            // Se tudo estiver ok, cria e retorna o novo treinador
+            //Se tudo estiver ok, cria e retorna o novo treinador
             return new Treinador(username, nome, idade);
 
         } catch (NumberFormatException e) {
@@ -108,14 +115,17 @@ public class TreinadorController {
 
     public void carregarAlunos() {
         ArrayList<Aluno> alunosCarregados = new ArrayList<>();
+        
         if (treinador.getAlunos() != null) {
+            
             for (Aluno alunoInfo : treinador.getAlunos()) {
                 try {
                     Aluno alunoCompleto = DataManager.carregarAluno(alunoInfo.getUsername());
                     if (alunoCompleto != null) {
                         alunosCarregados.add(alunoCompleto);
                     }
-                } catch (IOException | ValidacaoException e) {
+                } 
+                catch (IOException | ValidacaoException e) {
                     System.err.println("Não foi possível carregar o aluno: " + alunoInfo.getUsername());
                 }
             }
@@ -123,32 +133,37 @@ public class TreinadorController {
         view.atualizarListaAlunos(alunosCarregados);
     }
 
-    // Adiciona um aluno existente à lista do treinador
+    //Adiciona um aluno existente à lista do treinador
     public void adicionarAluno() {
         String username = JOptionPane.showInputDialog(view, "Digite o nome de usuário do aluno (já cadastrado):",
                 "Adicionar Aluno", JOptionPane.PLAIN_MESSAGE);
+        
         if (username != null && !username.trim().isEmpty()) {
             Aluno aluno = Aluno.buscarAlunoPorUsername(username.trim());
+            
             if (aluno != null) {
-                // Verifica se o aluno já está na lista do treinador
+                //Verifica se o aluno já está na lista do treinador
                 boolean jaExiste = treinador.getAlunos().stream()
                         .anyMatch(a -> a.getUsername().equals(aluno.getUsername()));
+                
                 if (!jaExiste) {
                     treinador.addAluno(aluno);
-                    // Atualiza a view diretamente com a lista atual do treinador
                     view.atualizarListaAlunos(treinador.getAlunos());
                     view.mostrarMensagem("Aluno adicionado à sua lista!\nClique em 'Salvar Alterações' para persistir.",
                             "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                } else {
+                }
+
+                else {
                     view.mostrarMensagem("Esse aluno já está na sua lista.", "Aviso", JOptionPane.WARNING_MESSAGE);
                 }
-            } else {
+            } 
+            else {
                 view.mostrarMensagem("Aluno não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
-    // Remove um aluno da lista do treinador (não deleta do sistema)
+    //Remove um aluno da lista do treinador
     public void removerAluno(Aluno aluno) {
         if (aluno == null) {
             view.mostrarMensagem("Selecione um aluno para remover.", "Aviso", JOptionPane.WARNING_MESSAGE);
@@ -160,20 +175,20 @@ public class TreinadorController {
                 JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
             treinador.removeAluno(aluno);
-            // Atualiza a view diretamente com a lista atual do treinador
+            //Atualiza a view diretamente com a lista atual do treinador
             view.atualizarListaAlunos(treinador.getAlunos());
             view.mostrarMensagem("Aluno removido da sua lista.\nClique em 'Salvar Alterações' para persistir.",
                     "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
-    // Permite editar os treinos do aluno selecionado
+    //Permite editar os treinos do aluno selecionado
     public void editarTreinosAluno(Aluno aluno) {
         if (aluno == null) {
             view.mostrarMensagem("Selecione um aluno para editar os treinos.", "Aviso", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        // Abre a tela do aluno, permitindo ao treinador editar os treinos
+        //Abre a tela do aluno, permitindo ao treinador editar os treinos
         TelaPrincipalAluno telaAluno = new TelaPrincipalAluno(aluno.getUsername());
         telaAluno.setVisible(true);
     }
@@ -187,11 +202,14 @@ public class TreinadorController {
                 null,
                 opcoes,
                 opcoes[0]);
-        if (escolha == 0) // Salvar e sair
+
+        if (escolha == 0) //Salvar e sair
             salvarDados();
-        else if (escolha == 2 || escolha == JOptionPane.CLOSED_OPTION) // Cancelar
-            return; // Não faz nada, volta para a tela
+        else if (escolha == 2 || escolha == JOptionPane.CLOSED_OPTION){
+            return; //Retorna pra tela inicial
+        }
         view.dispose();
-        new View.TelaSelecaoUsuario().setVisible(true); // Volta para a tela de seleção de usuário
+        //Volta para a tela de seleção de usuário
+        new View.TelaSelecaoUsuario().setVisible(true);
     }
 }
