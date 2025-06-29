@@ -5,6 +5,8 @@ import Model.Rotina.*;
 import Model.Usuario.*;
 import java.util.ArrayList;
 
+import Exception.ValidacaoException;
+
 public class DataManager {
 
     private static final String DIRETORIO_DADOS_ALUNOS = "dados_alunos/";
