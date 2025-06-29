@@ -12,15 +12,15 @@ public class TelaPrincipalTreinador extends JFrame {
     private TreinadorController controller;
     private JList<Aluno> listaAlunos;
     private DefaultListModel<Aluno> listModel;
-    private JButton btnAdicionarAluno, btnRemoverAluno, btnEditarTreinos, btnSair;
+    private JButton btnAdicionarAluno, btnRemoverAluno, btnEditarTreinos, btnSalvar, btnSair;
 
     public TelaPrincipalTreinador(String usernameTreinador) {
         this.usernameTreinador = usernameTreinador;
         this.controller = new TreinadorController(this, usernameTreinador);
 
         setTitle("Painel do Treinador: " + this.usernameTreinador);
-        setSize(600, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(650, 400);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         // Lista de alunos
@@ -66,6 +66,7 @@ public class TelaPrincipalTreinador extends JFrame {
         painelBotoes.add(btnAdicionarAluno);
         painelBotoes.add(btnRemoverAluno);
         painelBotoes.add(btnEditarTreinos);
+        painelBotoes.add(btnSalvar);
         painelBotoes.add(btnSair);
 
         setLayout(new BorderLayout());
@@ -85,10 +86,11 @@ public class TelaPrincipalTreinador extends JFrame {
         btnAdicionarAluno.addActionListener(e -> controller.adicionarAluno());
         btnRemoverAluno.addActionListener(e -> controller.removerAluno(listaAlunos.getSelectedValue()));
         btnEditarTreinos.addActionListener(e -> controller.editarTreinosAluno(listaAlunos.getSelectedValue()));
+        btnSalvar.addActionListener(e -> controller.salvarDados());
         btnSair.addActionListener(e -> controller.sair());
 
         // Carrega lista inicial de alunos do treinador
-        controller.carregarAlunos();
+        controller.carregarDadosIniciais();
     }
 
     // Atualiza a lista de alunos exibida

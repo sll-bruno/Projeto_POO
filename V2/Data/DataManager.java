@@ -38,7 +38,7 @@ public class DataManager {
                 
                 //Armazena os exercícios do treino na ordem Exericio - nome - Descrição - Repetições - Séries"
                 for (Exercicio ex : treino.getExercicios()) {
-                    writer.write(String.format("Exercicio|%s|%s|%d|%d\n",
+                    writer.write(String.format("Exercicio:%s|%s|%d|%d\n",
                         ex.getNome(), ex.getDescricao(), ex.getRepeticoes(), ex.getNumSeries()));
                 }
                 writer.write("END_EXERCICIOS\n");
@@ -47,8 +47,8 @@ public class DataManager {
         }
     }
 
-    public static Aluno carregarAluno(String nomeAluno) throws IOException, ValidacaoException {
-        String fileName = gerarNomeArquivoAluno(nomeAluno);
+    public static Aluno carregarAluno(String usernameAluno) throws IOException, ValidacaoException {
+        String fileName = gerarNomeArquivoAluno(usernameAluno);
         File file = new File(fileName);
         
         //Return nulo se o arquivo não existir
@@ -122,7 +122,7 @@ public class DataManager {
         return alunos;
     }
     
-    public static void salvarTreinador(Treinador treinador){
+    public static void salvarTreinador(Treinador treinador) throws IOException {
         String fileName = gerarNomeArquivoTreinador(treinador.getUsername());
         File arquivo = new File(fileName);
         
@@ -131,6 +131,7 @@ public class DataManager {
         }
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            writer.write("Username:" + treinador.getUsername() + "\n");
             writer.write("Nome:" + treinador.getName() + "\n");
             writer.write("Idade:" + treinador.getAge() + "\n");
             writer.write("START_ALUNOS\n");
@@ -156,6 +157,7 @@ public class DataManager {
 
         Treinador treinador = new Treinador();
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            treinador.setUsername(reader.readLine().split(":")[1]);
             treinador.setName(reader.readLine().split(":")[1]);
             treinador.setAge(Integer.parseInt(reader.readLine().split(":")[1]));
 

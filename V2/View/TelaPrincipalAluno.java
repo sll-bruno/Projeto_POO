@@ -23,13 +23,7 @@ public class TelaPrincipalAluno extends JFrame {
         this.usernameAluno = usernameAluno;
         setTitle("Gerenciador de Treinos do Aluno " + this.usernameAluno);
         setSize(800, 600);
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                controller.sair();
-            }
-        });
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         // -- Painel Esquerdo (Lista de Treinos) --
