@@ -1,0 +1,15 @@
+Username:Joao
+Nome:Joao Pereira
+Idade:19
+Peso:83.0
+Altura:1.82
+Rotina:Minha Rotina
+START_TREINOS
+TreinoNome:Dia 1: Treino de Peitoral
+START_EXERCICIOS
+Exercicio:Supino|indasljk|12|2
+END_EXERCICIOS
+TreinoNome:Dia 2: Treino de Quadriceps
+START_EXERCICIOS
+END_EXERCICIOS
+END_TREINOS

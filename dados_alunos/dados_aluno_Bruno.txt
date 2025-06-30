@@ -7,14 +7,12 @@ Rotina:Minha Rotina
 START_TREINOS
 TreinoNome:Dia 1: Superiores
 START_EXERCICIOS
-Exercicio:Supino|treino de peitoral|3|15
-Exercicio:Crucifixo|treino de peitoral|3|12
+Exercicio:Supino|treino de peitoral|12|4
 Exercicio:Tríceps Testa|tríceps|3|10
 END_EXERCICIOS
 TreinoNome:Dia 2: Inferiores
 START_EXERCICIOS
-Exercicio:Agachamento|pernas|4|12
-Exercicio:Leg Press|pernas|3|15
+Exercicio:Leg Press|pernas|12|4
 Exercicio:Flexora|posterior de coxa|3|12
 END_EXERCICIOS
 TreinoNome:Dia 3: Cardio e Core
@@ -22,5 +20,13 @@ START_EXERCICIOS
 Exercicio:Corrida|cardio|1|30
 Exercicio:Abdominal Supra|abdômen|3|20
 Exercicio:Prancha|abdômen|3|1
+END_EXERCICIOS
+TreinoNome:Dia 4: Full Body
+START_EXERCICIOS
+Exercicio:Supino|Treino de Peitoral|15|3
+END_EXERCICIOS
+TreinoNome:Dia 5: Ombros
+START_EXERCICIOS
+Exercicio:Desenvolimento|Treino De ombros|15|3
 END_EXERCICIOS
 END_TREINOS

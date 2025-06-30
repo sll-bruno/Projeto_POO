@@ -13,9 +13,6 @@ Exercicio:Tríceps Pulley|tríceps|3|15
 END_EXERCICIOS
 TreinoNome:Costas e Bíceps
 START_EXERCICIOS
-Exercicio:Barra Fixa|costas|4|8
-Exercicio:Remada Curvada|costas|3|12
-Exercicio:Rosca Direta|bíceps|3|10
 END_EXERCICIOS
 TreinoNome:Pernas
 START_EXERCICIOS
